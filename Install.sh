@@ -1,4 +1,11 @@
 #!/bin/sh
+
+# Alpine Linux compatibility check and early dependency installation
+if [ -f /etc/alpine-release ]; then
+	# Install basic dependencies including ncurses for tput
+	apk add --no-cache ncurses bash curl wget coreutils grep gawk util-linux 2>/dev/null
+fi
+
 tput sgr0; clear
 
 ## Load Seedbox Components
@@ -248,8 +255,8 @@ info "Start System Update & Dependencies Install"
 if [[ "$OS" =~ "Alpine" ]]; then
 	apk update
 	apk upgrade
-	# Install basic dependencies for Alpine
-	apk add bash curl wget coreutils
+	# Install additional dependencies for Alpine (basic ones already installed at script start)
+	apk add --no-cache sudo shadow
 else
 	update
 fi
